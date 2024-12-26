@@ -11,7 +11,7 @@ module.exports = {
   ],
   theme: {
     container: {
-      center: 'true',
+      center: true,
       padding: '2rem',
       screens: {
         '2xl': '1400px'
@@ -25,12 +25,12 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          DEFAULT: '#FFCC00',
+          foreground: '#000000'
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))'
+          DEFAULT: '#3B4CCA',
+          foreground: '#FFFFFF'
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
@@ -41,8 +41,8 @@ module.exports = {
           foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))'
+          DEFAULT: '#3B4CCA',
+          foreground: '#FFFFFF'
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
@@ -55,10 +55,10 @@ module.exports = {
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
-          primary: 'hsl(var(--sidebar-primary))',
-          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-          accent: 'hsl(var(--sidebar-accent))',
-          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          primary: '#FFCC00',
+          'primary-foreground': '#000000',
+          accent: '#3B4CCA',
+          'accent-foreground': '#FFFFFF',
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
         }
