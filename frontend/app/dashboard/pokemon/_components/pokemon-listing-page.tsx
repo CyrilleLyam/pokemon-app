@@ -1,43 +1,41 @@
 import PageContainer from '@/components/layout/page-container';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
-import { Pokemon } from '@/constants/data';
-import { fakeUsers } from '@/constants/mock-api';
+import { ApiResponse } from '@/constants/data';
 import { searchParamsCache } from '@/lib/searchparams';
 import PokemonTable from './pokemon-tables';
+import { API_ENDPOINTS } from '@/constants/api-endpoint';
 
 type TPokemonListingPage = {};
 
 export default async function PokemonListingPage({}: TPokemonListingPage) {
-  // Showcasing the use of search params cache in nested RSCs
-  const page = searchParamsCache.get('page');
-  const search = searchParamsCache.get('q');
-  const gender = searchParamsCache.get('gender');
-  const pageLimit = searchParamsCache.get('limit');
+  const page = searchParamsCache.get('page') || 1;
+  const pageSize = searchParamsCache.get('limit') || 10;
 
-  const filters = {
-    page,
-    limit: pageLimit,
-    ...(search && { search }),
-    ...(gender && { genders: gender })
-  };
+  const queryParams = new URLSearchParams({
+    page: page.toString(),
+    page_size: pageSize.toString(),
+  });
 
-  // mock api call
-  const data = await fakeUsers.getUsers(filters);
-  const totalUsers = data.total_users;
-  const pokemon: Pokemon[] = data.users;
+  const apiUrl = `${API_ENDPOINTS.BASE_URL}${API_ENDPOINTS.POKEMON.BASE}?${queryParams.toString()}`;
+
+  const response = await fetch(apiUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch data: ${response.statusText}`);
+  }
+  const fetchedData: ApiResponse = await response.json();
 
   return (
     <PageContainer scrollable>
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <Heading
-            title={`Pokemon (${totalUsers})`}
+            title={`Pokemon (${fetchedData.total_items})`}
             description="Manage pokemons (Server side table functionalities.)"
           />
         </div>
         <Separator />
-        <PokemonTable data={pokemon} totalData={totalUsers} />
+        <PokemonTable data={fetchedData.data} totalData={fetchedData.total_items} />
       </div>
     </PageContainer>
   );

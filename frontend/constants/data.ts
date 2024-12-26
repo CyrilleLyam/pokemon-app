@@ -93,32 +93,16 @@ export const users: User[] = [
 
 export type Pokemon = {
   id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  gender: string;
-  date_of_birth: string; // Consider using a proper date type if possible
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  longitude?: number; // Optional field
-  latitude?: number; // Optional field
-  job: string;
-  profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
+  name: string;
+  base_experience: number;
+  height: number;
 };
 
-export type Product = {
-  photo_url: string;
-  name: string;
-  description: string;
-  created_at: string;
-  price: number;
-  id: number;
-  category: string;
-  updated_at: string;
+export type ApiResponse = {
+  total_items: number;
+  page: number;
+  page_size: number;
+  data: Pokemon[];
 };
 
 export const navItems: NavItem[] = [

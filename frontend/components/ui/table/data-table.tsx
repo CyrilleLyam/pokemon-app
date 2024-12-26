@@ -166,7 +166,7 @@ export function DataTable<TData, TValue>({
               </p>
               <Select
                 value={`${paginationState.pageSize}`}
-                onValueChange={(value) => {
+                onValueChange={(value: any) => {
                   table.setPageSize(Number(value));
                 }}
               >
