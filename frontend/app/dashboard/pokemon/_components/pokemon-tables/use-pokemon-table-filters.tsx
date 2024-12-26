@@ -4,11 +4,6 @@ import { searchParams } from '@/lib/searchparams';
 import { useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 
-export const GENDER_OPTIONS = [
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' }
-];
-
 export function usePokemonTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
     'q',
@@ -17,9 +12,14 @@ export function usePokemonTableFilters() {
       .withDefault('')
   );
 
-  const [genderFilter, setGenderFilter] = useQueryState(
-    'gender',
-    searchParams.gender.withOptions({ shallow: false }).withDefault('')
+  const [baseExperienceFilter, setBaseExperienceFilter] = useQueryState(
+    'base_experience',
+    searchParams.base_experience.withOptions({ shallow: false }).withDefault('')
+  );
+
+  const [heightFilter, setHeightFilter] = useQueryState(
+    'height',
+    searchParams.height.withOptions({ shallow: false }).withDefault('')
   );
 
   const [page, setPage] = useQueryState(
@@ -29,20 +29,23 @@ export function usePokemonTableFilters() {
 
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
-    setGenderFilter(null);
+    setBaseExperienceFilter(null);
+    setHeightFilter(null);
 
     setPage(1);
-  }, [setSearchQuery, setGenderFilter, setPage]);
+  }, [setSearchQuery, setBaseExperienceFilter, setHeightFilter, setPage]);
 
   const isAnyFilterActive = useMemo(() => {
-    return !!searchQuery || !!genderFilter;
-  }, [searchQuery, genderFilter]);
+    return !!searchQuery || !!baseExperienceFilter || !!heightFilter;
+  }, [searchQuery, baseExperienceFilter, heightFilter]);
 
   return {
     searchQuery,
     setSearchQuery,
-    genderFilter,
-    setGenderFilter,
+    baseExperienceFilter,
+    setBaseExperienceFilter,
+    heightFilter,
+    setHeightFilter,
     page,
     setPage,
     resetFilters,

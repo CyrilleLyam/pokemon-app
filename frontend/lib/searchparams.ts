@@ -9,8 +9,8 @@ export const searchParams = {
   page: parseAsInteger.withDefault(1),
   limit: parseAsInteger.withDefault(10),
   q: parseAsString,
-  gender: parseAsString,
-  categories: parseAsString
+  base_experience: parseAsInteger,
+  height: parseAsInteger,
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParams);

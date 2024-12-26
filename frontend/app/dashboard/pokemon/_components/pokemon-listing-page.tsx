@@ -11,14 +11,20 @@ type TPokemonListingPage = {};
 export default async function PokemonListingPage({}: TPokemonListingPage) {
   const page = searchParamsCache.get('page') || 1;
   const pageSize = searchParamsCache.get('limit') || 10;
+  const height = searchParamsCache.get('height');
+  const baseExperience = searchParamsCache.get('base_experience');
 
   const queryParams = new URLSearchParams({
-    page: page.toString(),
-    page_size: pageSize.toString(),
+  page: page.toString(),
+  page_size: pageSize.toString(),
+  ...(height && { height: height.toString() }),
+  ...(baseExperience && { base_experience: baseExperience.toString() }),
+  sort_by: 'name',
+  order: 'asc',
   });
 
-  const apiUrl = `${API_ENDPOINTS.BASE_URL}${API_ENDPOINTS.POKEMON.BASE}?${queryParams.toString()}`;
 
+  const apiUrl = `${API_ENDPOINTS.BASE_URL}${API_ENDPOINTS.POKEMON.BASE}?${queryParams.toString()}`;
   const response = await fetch(apiUrl);
   if (!response.ok) {
     throw new Error(`Failed to fetch data: ${response.statusText}`);

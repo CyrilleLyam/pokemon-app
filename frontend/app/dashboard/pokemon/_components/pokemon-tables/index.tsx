@@ -1,33 +1,32 @@
 'use client';
 
 import { DataTable } from '@/components/ui/table/data-table';
-import { DataTableFilterBox } from '@/components/ui/table/data-table-filter-box';
 import { DataTableResetFilter } from '@/components/ui/table/data-table-reset-filter';
 import { DataTableSearch } from '@/components/ui/table/data-table-search';
 import { Pokemon } from '@/constants/data';
 import { columns } from './columns';
-import {
-  GENDER_OPTIONS,
-  usePokemonTableFilters
-} from './use-pokemon-table-filters';
+import { usePokemonTableFilters } from './use-pokemon-table-filters';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 export default function PokemonTable({
   data,
-  totalData
+  totalData,
 }: {
   data: Pokemon[];
   totalData: number;
 }) {
   const {
-    genderFilter,
-    setGenderFilter,
-    isAnyFilterActive,
-    resetFilters,
     searchQuery,
+    setSearchQuery,
+    baseExperienceFilter,
+    setBaseExperienceFilter,
+    heightFilter,
+    setHeightFilter,
+    resetFilters,
+    isAnyFilterActive,
     setPage,
-    setSearchQuery
   } = usePokemonTableFilters();
-
 
   return (
     <div className="space-y-4">
@@ -38,13 +37,22 @@ export default function PokemonTable({
           setSearchQuery={setSearchQuery}
           setPage={setPage}
         />
-        <DataTableFilterBox
-          filterKey="gender"
-          title="Gender"
-          options={GENDER_OPTIONS}
-          setFilterValue={setGenderFilter}
-          filterValue={genderFilter}
-        />
+          <Input
+            id="base_experience"
+            type="number"
+            placeholder="Enter Base Experience"
+            value={baseExperienceFilter || ''}
+            onChange={(e:any) => setBaseExperienceFilter(e.target.value)}
+            className={cn('w-full md:max-w-sm')}
+          />
+          <Input
+            id="height"
+            type="number"
+            placeholder="Enter Height"
+            value={heightFilter || ''}
+            onChange={(e:any) => setHeightFilter(e.target.value)}
+            className={cn('w-full md:max-w-sm')}
+          />
         <DataTableResetFilter
           isFilterActive={isAnyFilterActive}
           onReset={resetFilters}
