@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - pokemon-network
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    env_file:
+      - .env
+    command: ["python", "main.py"]
+
+networks:
+  pokemon-network:
+    external: true
