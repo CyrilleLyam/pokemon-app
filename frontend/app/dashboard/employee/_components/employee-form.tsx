@@ -53,9 +53,7 @@ export default function EmployeeForm() {
     }
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof formSchema>) {}
 
   return (
     <Card className="mx-auto w-full">
