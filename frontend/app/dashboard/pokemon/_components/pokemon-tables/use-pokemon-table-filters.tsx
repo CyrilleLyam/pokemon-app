@@ -14,12 +14,12 @@ export function usePokemonTableFilters() {
 
   const [baseExperienceFilter, setBaseExperienceFilter] = useQueryState(
     'base_experience',
-    searchParams.base_experience.withOptions({ shallow: false }).withDefault('')
+    searchParams.base_experience.withOptions({ shallow: false })
   );
 
   const [heightFilter, setHeightFilter] = useQueryState(
     'height',
-    searchParams.height.withOptions({ shallow: false }).withDefault('')
+    searchParams.height.withOptions({ shallow: false })
   );
 
   const [page, setPage] = useQueryState(
@@ -27,13 +27,18 @@ export function usePokemonTableFilters() {
     searchParams.page.withDefault(1)
   );
 
+  const [sortOrder, setSortOrder] = useQueryState(
+    'sort',
+    searchParams.sort.withOptions({ shallow: false }).withDefault('asc')
+  );
+
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
     setBaseExperienceFilter(null);
     setHeightFilter(null);
-
+    setSortOrder("asc");
     setPage(1);
-  }, [setSearchQuery, setBaseExperienceFilter, setHeightFilter, setPage]);
+  }, [setSearchQuery, setBaseExperienceFilter, setHeightFilter, setSortOrder, setPage]);
 
   const isAnyFilterActive = useMemo(() => {
     return !!searchQuery || !!baseExperienceFilter || !!heightFilter;
@@ -49,6 +54,8 @@ export function usePokemonTableFilters() {
     page,
     setPage,
     resetFilters,
-    isAnyFilterActive
+    isAnyFilterActive,
+    sortOrder,
+    setSortOrder,
   };
 }

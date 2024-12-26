@@ -11,6 +11,7 @@ export const searchParams = {
   q: parseAsString,
   base_experience: parseAsInteger,
   height: parseAsInteger,
+  sort: parseAsString
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParams);

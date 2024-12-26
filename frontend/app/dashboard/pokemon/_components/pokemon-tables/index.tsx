@@ -7,6 +7,7 @@ import { Pokemon } from '@/constants/data';
 import { columns } from './columns';
 import { usePokemonTableFilters } from './use-pokemon-table-filters';
 import { Input } from '@/components/ui/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'; // Assuming these components are from ShadCN
 import { cn } from '@/lib/utils';
 
 export default function PokemonTable({
@@ -26,6 +27,8 @@ export default function PokemonTable({
     resetFilters,
     isAnyFilterActive,
     setPage,
+    sortOrder,
+    setSortOrder,
   } = usePokemonTableFilters();
 
   return (
@@ -37,22 +40,32 @@ export default function PokemonTable({
           setSearchQuery={setSearchQuery}
           setPage={setPage}
         />
-          <Input
-            id="base_experience"
-            type="number"
-            placeholder="Enter Base Experience"
-            value={baseExperienceFilter || ''}
-            onChange={(e:any) => setBaseExperienceFilter(e.target.value)}
-            className={cn('w-full md:max-w-sm')}
-          />
-          <Input
-            id="height"
-            type="number"
-            placeholder="Enter Height"
-            value={heightFilter || ''}
-            onChange={(e:any) => setHeightFilter(e.target.value)}
-            className={cn('w-full md:max-w-sm')}
-          />
+        <Input
+          id="base_experience"
+          type="number"
+          placeholder="Enter Base Experience"
+          value={baseExperienceFilter || ''}
+          onChange={(e: any) => setBaseExperienceFilter(e.target.value)}
+          className={cn('w-full md:max-w-sm')}
+        />
+        <Input
+          id="height"
+          type="number"
+          placeholder="Enter Height"
+          value={heightFilter || ''}
+          onChange={(e: any) => setHeightFilter(e.target.value)}
+          className={cn('w-full md:max-w-sm')}
+        />
+        {/* ShadCN Select for Sort Order */}
+        <Select value={sortOrder} onValueChange={setSortOrder}>
+          <SelectTrigger className={cn('w-full md:max-w-sm')}>
+            <SelectValue placeholder="Sort Order" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="asc">Ascending</SelectItem>
+            <SelectItem value="desc">Descending</SelectItem>
+          </SelectContent>
+        </Select>
         <DataTableResetFilter
           isFilterActive={isAnyFilterActive}
           onReset={resetFilters}
