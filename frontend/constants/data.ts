@@ -91,7 +91,7 @@ export const users: User[] = [
   }
 ];
 
-export type Employee = {
+export type Pokemon = {
   id: number;
   first_name: string;
   last_name: string;
@@ -131,8 +131,8 @@ export const navItems: NavItem[] = [
     items: [] // Empty array as there are no child items for Dashboard
   },
   {
-    title: 'Employee',
-    url: '/dashboard/employee',
+    title: 'Pokemon',
+    url: '/dashboard/pokemon',
     icon: 'user',
     shortcut: ['e', 'e'],
     isActive: false,

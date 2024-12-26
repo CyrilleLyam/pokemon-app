@@ -9,7 +9,7 @@ export const GENDER_OPTIONS = [
   { value: 'female', label: 'Female' }
 ];
 
-export function useEmployeeTableFilters() {
+export function usePokemonTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
     'q',
     searchParams.q

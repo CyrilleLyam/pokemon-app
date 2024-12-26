@@ -4,18 +4,18 @@ import { DataTable } from '@/components/ui/table/data-table';
 import { DataTableFilterBox } from '@/components/ui/table/data-table-filter-box';
 import { DataTableResetFilter } from '@/components/ui/table/data-table-reset-filter';
 import { DataTableSearch } from '@/components/ui/table/data-table-search';
-import { Employee } from '@/constants/data';
-import { columns } from '../employee-tables/columns';
+import { Pokemon } from '@/constants/data';
+import { columns } from './columns';
 import {
   GENDER_OPTIONS,
-  useEmployeeTableFilters
-} from './use-employee-table-filters';
+  usePokemonTableFilters
+} from './use-pokemon-table-filters';
 
-export default function EmployeeTable({
+export default function PokemonTable({
   data,
   totalData
 }: {
-  data: Employee[];
+  data: Pokemon[];
   totalData: number;
 }) {
   const {
@@ -26,7 +26,7 @@ export default function EmployeeTable({
     searchQuery,
     setPage,
     setSearchQuery
-  } = useEmployeeTableFilters();
+  } = usePokemonTableFilters();
 
   return (
     <div className="space-y-4">
