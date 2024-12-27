@@ -6,7 +6,7 @@ services:
     networks:
       - pokemon-network
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${PORT}:${PORT}
     env_file:
       - .env
     command: ["python", "main.py"]

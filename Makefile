@@ -1,4 +1,4 @@
-POSTGRES_DIR=pod-services/postgres
+POSTGRES_DIR=pod-services/**
 BACKEND_DIR=backend/**
 
 # Default target
@@ -13,19 +13,19 @@ ensure-network:
 # Run Docker Compose up for all services
 up: ensure-network
 	@echo "Starting all Docker services..."
-	@sudo docker compose -f $(POSTGRES_DIR)/docker-compose.yml up -d
+	@find $(POSTGRES_DIR) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
 	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
 
 # Stop Docker Compose services for all
 down:
 	@echo "Stopping all Docker services..."
-	@sudo docker compose -f $(POSTGRES_DIR)/docker-compose.yml down
+	@find $(POSTGRES_DIR) -name docker-compose.yml -exec sudo docker compose -f {} down \;
 	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} down \;
 
 # View Docker Compose logs for all
 logs:
 	@echo "Showing logs for all Docker services..."
-	@sudo docker compose -f $(POSTGRES_DIR)/docker-compose.yml logs
+	@find $(POSTGRES_DIR) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
 	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
 
 # Restart all Docker Compose services
