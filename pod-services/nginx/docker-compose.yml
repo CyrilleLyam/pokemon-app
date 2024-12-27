@@ -1,6 +1,8 @@
 services:
   nginx:
-    image: nginx:1.26.2-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file:
       - .env
     ports:
@@ -9,8 +11,8 @@ services:
     networks:
       - pokemon-network
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-
+      - ./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf:ro
+      - ./nginx/lua:/etc/nginx/lua:ro
 networks:
   pokemon-network:
     external: true
