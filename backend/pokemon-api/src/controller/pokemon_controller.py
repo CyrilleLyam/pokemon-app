@@ -5,7 +5,7 @@ from src.database import get_db
 
 router = APIRouter()
 
-@router.get("/pokemon")
+@router.get("/")
 def get_all_pokemon(
     base_experience: int = Query(None),
     height: int = Query(None),
