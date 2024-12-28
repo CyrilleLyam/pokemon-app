@@ -24,8 +24,15 @@ export default async function PokemonListingPage({}: TPokemonListingPage) {
     order,
   });
 
-  const apiUrl = `${API_ENDPOINTS.BASE_URL}${API_ENDPOINTS.POKEMON.BASE}?${queryParams.toString()}`;
-  const response = await fetch(apiUrl);
+  const apiUrl = `${API_ENDPOINTS.BASE_URL}${API_ENDPOINTS.POKEMON.BASE}/?${queryParams.toString()}`;
+
+  const response = await fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch data: ${response.statusText}`);
