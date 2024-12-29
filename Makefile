@@ -1,5 +1,6 @@
-POSTGRES_DIR=pod-services/**
+POD_SERVICES=pod-services/**
 BACKEND_DIR=backend/**
+FRONT_DIR=frontend/
 
 # Default target
 .PHONY: all
@@ -13,19 +14,21 @@ ensure-network:
 # Run Docker Compose up for all services
 up: ensure-network
 	@echo "Starting all Docker services..."
-	@find $(POSTGRES_DIR) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
+	@find $(POD_SERVICES) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
 	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
+	@sudo docker compose -f $(FRONT_DIR)/docker-compose.yml up -d;
 
 # Stop Docker Compose services for all
 down:
 	@echo "Stopping all Docker services..."
-	@find $(POSTGRES_DIR) -name docker-compose.yml -exec sudo docker compose -f {} down \;
+	@find $(POD_SERVICES) -name docker-compose.yml -exec sudo docker compose -f {} down \;
 	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} down \;
+	@sudo docker compose -f $(FRONT_DIR)/docker-compose.yml down;
 
 # View Docker Compose logs for all
 logs:
 	@echo "Showing logs for all Docker services..."
-	@find $(POSTGRES_DIR) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
+	@find $(POD_SERVICES) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
 	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
 
 # Restart all Docker Compose services
