@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def main():
-    app_host = os.getenv("APP_HOST", "127.0.0.1")
-    app_port = int(os.getenv("APP_PORT", 8000))
+    app_host = os.getenv("APP_HOST")
+    app_port = int(os.getenv("APP_PORT"))
 
     uvicorn.run(
         app="src.server:app",

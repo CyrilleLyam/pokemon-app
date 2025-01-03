@@ -1,44 +1,41 @@
-POD_SERVICES=pod-services/**
-BACKEND_DIR=backend/**
-FRONT_DIR=frontend/
+POD_SERVICES=pod-services
+FETCHER=data-fetcher
+BACKEND=backend
+NETWORK=pokemon-network
 
-# Default target
-.PHONY: all
-all: help
+.PHONY: ensure-network up-postgresql up-pokemon-sync up-backend up-nginx down
 
-# Ensure the external network exists
 ensure-network:
-	@echo "Ensuring external network pokemon-network exists..."
-	@sudo docker network inspect pokemon-network >/dev/null 2>&1 || sudo docker network create pokemon-network
+	@echo "🔍 Checking if network '$(NETWORK)' exists..."
+	@if ! docker network inspect $(NETWORK) >/dev/null 2>&1; then \
+		echo "🌐 Creating network '$(NETWORK)'..."; \
+		docker network create $(NETWORK); \
+	fi
 
-# Run Docker Compose up for all services
-up: ensure-network
-	@echo "Starting all Docker services..."
-	@find $(POD_SERVICES) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
-	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} up -d \;
-	@sudo docker compose -f $(FRONT_DIR)/docker-compose.yml up -d;
+up-postgresql: ensure-network
+	@echo "🚀 Starting PostgreSQL service..."
+	@docker compose -f $(POD_SERVICES)/postgres/docker-compose.yml up -d
+	@echo "✅ PostgreSQL is up and running!"
 
-# Stop Docker Compose services for all
+up-pokemon-sync: up-postgresql
+	@echo "🚀 Starting fetcher services (e.g., pokemon-sync)..."
+	@docker compose -f $(FETCHER)/pokemon-sync-service/docker-compose.yml up -d
+	@echo "✅ Fetcher services are up and running!"
+
+up-backend: up-pokemon-sync
+	@echo "🚀 Starting backend services..."
+	@find $(BACKEND) -type f -name docker-compose.yml -exec docker compose -f {} up -d \;
+	@echo "✅ Backend services are up and running!"
+
+up: up-backend
+	@echo "🚀 Starting NGINX service..."
+	@docker compose -f $(POD_SERVICES)/nginx/docker-compose.yml up -d
+	@echo "✅ NGINX service is up and running!"
+
 down:
-	@echo "Stopping all Docker services..."
-	@find $(POD_SERVICES) -name docker-compose.yml -exec sudo docker compose -f {} down \;
-	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} down \;
-	@sudo docker compose -f $(FRONT_DIR)/docker-compose.yml down;
-
-# View Docker Compose logs for all
-logs:
-	@echo "Showing logs for all Docker services..."
-	@find $(POD_SERVICES) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
-	@find $(BACKEND_DIR) -name docker-compose.yml -exec sudo docker compose -f {} logs \;
-
-# Restart all Docker Compose services
-restart: down up
-
-# Display help message
-.PHONY: help
-help:
-	@echo "Makefile for managing Docker Compose for all services:"
-	@echo "  make up       Start all Docker containers."
-	@echo "  make down     Stop all Docker containers."
-	@echo "  make logs     View logs for all Docker containers."
-	@echo "  make restart  Restart all Docker containers."
+	@echo "🛑 Stopping all services..."
+	@docker compose -f $(POD_SERVICES)/postgres/docker-compose.yml down
+	@docker compose -f $(FETCHER)/pokemon-sync-service/docker-compose.yml down
+	@find $(BACKEND) -type f -name docker-compose.yml -exec docker compose -f {} down \;
+	@docker compose -f $(POD_SERVICES)/nginx/docker-compose.yml down
+	@echo "✅ All services have been stopped!"

@@ -7,7 +7,7 @@ services:
       - pokemon-network
     env_file:
       - .env
-    command: ["python", "main.py"]
+    command: ["python", "-u", "main.py"]
 
 networks:
   pokemon-network:

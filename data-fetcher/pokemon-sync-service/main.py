@@ -73,6 +73,8 @@ def store_pokemon_data(conn, pokemon_data):
     print("Data insertion completed for this batch.")
 
 def main():
+    print("✅ Application is starting...")
+
     conn = connect_to_db()
     if not conn:
         return

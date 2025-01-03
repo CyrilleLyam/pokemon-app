@@ -5,9 +5,11 @@ services:
       dockerfile: Dockerfile
     networks:
       - pokemon-network
+    ports:
+      - ${PORT}:${PORT}
     env_file:
       - .env
-    command: ["python", "main.py"]
+    command: ["python", "-u", "main.py"]
 
 networks:
   pokemon-network:
