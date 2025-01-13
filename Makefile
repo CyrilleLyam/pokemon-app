@@ -39,3 +39,9 @@ down:
 	@find $(BACKEND) -type f -name docker-compose.yml -exec docker compose -f {} down \;
 	@docker compose -f $(POD_SERVICES)/nginx/docker-compose.yml down
 	@echo "✅ All services have been stopped!"
+
+clean: down
+	@echo "🗑️  Removing all containers and images..."
+	@docker container prune -f
+	@docker image prune -a -f
+	@echo "✅ All containers and images have been removed!"
